@@ -1,0 +1,59 @@
+    namespace org.pizza_delivery
+
+concept address{
+ o String building optional 
+  o String colony optional
+  o String road optional
+  o String city optional
+} 
+
+participant customer identified by cust_id{
+ o String name  
+  o String cust_id  
+  o  address add
+  o Double account_balance
+}
+
+participant restaurant identified by owner{
+  o String owner
+ o Double account_balance
+}
+
+enum ProductType {
+  o Pizza
+  o Dessert
+  o Colddrink
+}
+
+asset cart identified by order_id{
+ o String  order_id
+ o food[] food_items
+}
+
+asset receipt identified by receipt_no{
+ o String  receipt_no
+ o Double total
+ --> customer cust
+ --> cart cart_items
+ --> restaurant rest
+}
+
+asset food identified by food_id{
+ o String food_id 
+ o Double cost
+ o Double quantity
+ o ProductType type
+}
+
+transaction addtocart{
+  o String order_id
+  o Double quantity
+  --> food food_item
+}
+
+transaction order {
+ 	o String order_id
+    --> customer cust
+   --> cart cart_items
+   --> restaurant rest
+}
